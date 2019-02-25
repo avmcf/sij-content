@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Definition of new Model -->
+<model name="sij:sijmodel" xmlns="http://www.alfresco.org/model/dictionary/1.0">
+
+	<!-- Optional meta-data about the model -->
+	<description>sij content model</description>
+	<author>avmcf</author>
+	<version>2.0</version>
+
+	<!-- Imports are required to allow references to definitions in other models -->
+	<imports>
+		<!-- Import Alfresco Dictionary Definitions -->
+		<import uri="http://www.alfresco.org/model/dictionary/1.0" prefix="d" />
+		<!-- Import Alfresco Content Domain Model Definitions -->
+		<import uri="http://www.alfresco.org/model/content/1.0" prefix="cm" />
+		<import uri="http://www.alfresco.org/model/system/1.0" prefix="sys"/>		
+	</imports>
+
+	<!-- Introduction of new namespaces defined by this model -->
+	<namespaces>
+		<namespace uri="http://www.vconsulte.sij.com/model/content/2.0" prefix="sij" />
+	</namespaces>
+	
+	<constraints>
+		<constraint name="sij:situacaoList" type="LIST">
+            <parameter name="allowedValues">
+                <list>
+                    <value>Arquivado</value>
+                    <value>Tramitando</value>
+                    <value>Recebido</value>
+                    <value>Recusado</value>
+                    <value>Eliminado</value>
+                    <value>Novo</value>
+                    <value>Rejeitado</value>
+                    <value>Indexado</value>
+                </list>
+            </parameter>
+        </constraint>
+        <constraint name="sij:tipoList" type="LIST">
+            <parameter name="allowedValues">
+                <list>
+                    <value>Citação</value>
+                    <value>Procuração</value>
+                    <value>Fatura</value>
+                    <value>Extrato</value>
+                    <value>Ofício</value>
+                    <value>Correspondência</value>
+                    <value>Publicação</value>
+                    <value>Documento</value>
+                    <value>Rascunho</value>
+                </list>
+            </parameter>
+        </constraint>
+        <constraint name="sij:tribunalList" type="LIST">
+            <parameter name="allowedValues">
+                <list>
+                    <value>01</value>
+                    <value>02</value>
+                    <value>03</value>
+                    <value>04</value>
+                    <value>05</value>
+                    <value>06</value>
+                    <value>07</value>
+                    <value>08</value>
+                    <value>09</value>
+                    <value>10</value>
+                    <value>11</value>
+                    <value>12</value>
+                    <value>13</value>
+                    <value>14</value>
+                    <value>15</value>
+                    <value>16</value>
+                    <value>17</value>
+                    <value>18</value>
+                    <value>19</value>
+                    <value>20</value>
+                    <value>21</value>
+                    <value>22</value>
+                    <value>23</value>
+                    <value>24</value>
+                </list>
+            </parameter>
+        </constraint>
+	
+	</constraints>
+	
+	<types>
+	
+		<!-- Enterprise-wide generic document type -->
+		<type name="sij:doc">
+			<title>Conteudo SGJ</title>
+			<parent>cm:content</parent>
+			<associations>
+				<association name="sij:documentosRelacionados">
+					<title>Documentos Relacionados</title>
+					<source>
+						<mandatory>false</mandatory>
+						<many>true</many>
+					</source>
+					<target>
+						<class>sij:doc</class>
+						<mandatory>false</mandatory>
+						<many>true</many>
+					</target>
+				</association>
+			</associations>
+			<mandatory-aspects>
+				<aspect>cm:generalclassifiable</aspect>
+			</mandatory-aspects>
+		</type>
+		
+		<type name="sij:documento">
+			<title>SGJ - Documento Controlado</title>
+			<parent>sij:doc</parent>
+			<properties>
+				<property name="sij:docTipo">
+					<type>d:text</type>
+					<multiple>false</multiple>
+					<default>Rascunho</default>
+                    <constraints>
+                    	<constraint ref="sij:tipoList" />
+                    </constraints>
+				</property>
+				<property name="sij:docSituacao">
+					<type>d:text</type>
+					<mandatory>false</mandatory>
+					<multiple>false</multiple>
+					<default>Novo</default>
+                    <constraints>
+                    	<constraint ref="sij:situacaoList" />
+                    </constraints>      
+				</property>
+				<property name="sij:docAtivo">
+                    <title>Ativo?</title>
+                    <type>d:boolean</type>
+                    <mandatory>true</mandatory>
+                    <default>false</default>
+                </property>				
+				<property name="sij:docDtAtivacao">
+					<type>d:date</type>
+					<mandatory>false</mandatory>
+				</property>
+            </properties>
+		</type>
+		
+	</types>
+
+	<aspects>
+				
+		<aspect name="sij:publicacao">
+			<title>SIJ - Publicacao do Diario Oficial</title>
+			<properties>
+				<property name="sij:pubDtEdicao">
+					<type>d:date</type>
+					<mandatory>false</mandatory>				
+				</property>
+				<property name="sij:pubTribunal">
+					<type>d:text</type>
+					<mandatory>false</mandatory>
+					<constraints>
+                    	<constraint ref="sij:tribunalList" />
+                    </constraints>						               
+				</property>
+				<property name="sij:pubToken">
+                    <title>Token</title>
+                    <type>d:mltext</type>
+                    <mandatory>false</mandatory>
+                </property>
+			</properties>
+		</aspect>
+		
+		<aspect name="sij:docJuridico">
+			<title>SIJ - Documento Juridico</title>
+			<properties>
+				<property name="sij:jurNumProcesso">
+					<type>d:text</type>
+				</property>
+				<property name="sij:jurTribunal">
+					<type>d:text</type>
+					<mandatory>true</mandatory>
+				</property>
+				<property name="sij:jurVara">
+					<type>d:text</type>
+				</property>
+				<property name="sij:jurMunicipio">
+					<type>d:text</type>
+				</property>
+			</properties>
+		</aspect>
+
+	</aspects>
+</model>
