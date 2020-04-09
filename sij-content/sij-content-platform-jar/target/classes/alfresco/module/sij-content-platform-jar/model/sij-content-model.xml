@@ -87,18 +87,18 @@
 	<types>
 	
 		<!-- Enterprise-wide generic document type -->
-		<type name="sij:doc">
-			<title>Conteudo SGJ</title>
+		<type name="sij:conteudo">
+			<title>Conteudo SIJ</title>
 			<parent>cm:content</parent>
 			<associations>
-				<association name="sij:documentosRelacionados">
-					<title>Documentos Relacionados</title>
+				<association name="sij:conteudosRelacionados">
+					<title>Conteudos Relacionados</title>
 					<source>
 						<mandatory>false</mandatory>
 						<many>true</many>
 					</source>
 					<target>
-						<class>sij:doc</class>
+						<class>sij:conteudo</class>
 						<mandatory>false</mandatory>
 						<many>true</many>
 					</target>
@@ -110,8 +110,8 @@
 		</type>
 		
 		<type name="sij:documento">
-			<title>SGJ - Documento Controlado</title>
-			<parent>sij:doc</parent>
+			<title>Documento Controlado pelo SIJ</title>
+			<parent>sij:conteudo</parent>
 			<properties>
 				<property name="sij:docTipo">
 					<type>d:text</type>
@@ -120,6 +120,10 @@
                     <constraints>
                     	<constraint ref="sij:tipoList" />
                     </constraints>
+				</property>
+				<property name="sij:docCliente">
+					<type>d:text</type>
+					<multiple>false</multiple>
 				</property>
 				<property name="sij:docSituacao">
 					<type>d:text</type>
@@ -133,13 +137,13 @@
 				<property name="sij:docAtivo">
                     <title>Ativo?</title>
                     <type>d:boolean</type>
-                    <mandatory>true</mandatory>
+                    <mandatory>false</mandatory>
                     <default>false</default>
-                </property>				
+                </property>		
 				<property name="sij:docDtAtivacao">
 					<type>d:date</type>
 					<mandatory>false</mandatory>
-				</property>
+				</property>	
             </properties>
 		</type>
 		
@@ -148,10 +152,14 @@
 	<aspects>
 				
 		<aspect name="sij:publicacao">
-			<title>SIJ - Publicacao do Diario Oficial</title>
+			<title>Publicacao do Diario Oficial</title>
 			<properties>
-				<property name="sij:pubDtEdicao">
+				<property name="sij:pubEdicao">
 					<type>d:date</type>
+					<mandatory>false</mandatory>				
+				</property>
+				<property name="sij:pubDtEdicao">
+					<type>d:text</type>
 					<mandatory>false</mandatory>				
 				</property>
 				<property name="sij:pubTribunal">
@@ -161,11 +169,59 @@
                     	<constraint ref="sij:tribunalList" />
                     </constraints>						               
 				</property>
+				<property name="sij:pubVara">
+					<type>d:text</type>
+					<mandatory>false</mandatory>						               
+				</property>
+				<property name="sij:pubGrupo">
+					<type>d:text</type>
+					<mandatory>false</mandatory>						               
+				</property>
+				<property name="sij:pubAssunto">
+					<type>d:text</type>
+					<mandatory>false</mandatory>						               
+				</property>
 				<property name="sij:pubToken">
                     <title>Token</title>
                     <type>d:mltext</type>
                     <mandatory>false</mandatory>
                 </property>
+                <property name="sij:pubAdvogados">
+                    <title>Advogados</title>
+                    <type>d:mltext</type>
+                    <mandatory>false</mandatory>
+                </property>
+                <property name="sij:pubIntimados">
+                    <title>Intimados</title>
+                    <type>d:mltext</type>
+                    <mandatory>false</mandatory>
+                </property>
+                <property name="sij:pubFolder">
+                    <title>Folder</title>
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                </property>
+			</properties>
+		</aspect>
+		
+		<aspect name="sij:publicacoes">
+			<title>Pasta de Publicações</title>
+			<properties>
+				<property name="sij:pstEdicao">
+					<type>d:date</type>
+					<mandatory>false</mandatory>				
+				</property>
+				<property name="sij:pstDtEdicao">
+					<type>d:text</type>
+					<mandatory>false</mandatory>				
+				</property>
+				<property name="sij:pstTribunal">
+					<type>d:text</type>
+					<mandatory>false</mandatory>
+					<constraints>
+                    	<constraint ref="sij:tribunalList" />
+                    </constraints>						               
+				</property>
 			</properties>
 		</aspect>
 		
@@ -177,7 +233,7 @@
 				</property>
 				<property name="sij:jurTribunal">
 					<type>d:text</type>
-					<mandatory>true</mandatory>
+					<mandatory>false</mandatory>
 				</property>
 				<property name="sij:jurVara">
 					<type>d:text</type>

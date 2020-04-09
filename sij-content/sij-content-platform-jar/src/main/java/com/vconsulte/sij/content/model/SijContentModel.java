@@ -24,6 +24,12 @@ public interface SijContentModel {
     public static final String PROP_PUBDTEDICAO = "Edicao";
     public static final String PROP_PUBTRIBUNAL = "Tribunal";
     public static final String PROP_PUBTOKEN = "Tokens";
+    public static final String PROP_PUBRELATOR = "Relator";
+    public static final String PROP_PUBRECORRENTE = "Recorrente";
+    public static final String PROP_PUBRECORRIDO = "Recorrido";
+    public static final String PROP_PUBADVOGADOSRECORRENTE = "Advogados do Recorrente";
+    public static final String PROP_PUBADVOGADOSRECORRIDO = "Advogados do Recorrido";
+    public static final String PROP_PUBINTIMADOS = "Intimados";
     
     public static final String PROP_JURNUMPROCESSO = "Procesoo";
     public static final String PROP_JURTRIBUNAL = "Tribunal";
